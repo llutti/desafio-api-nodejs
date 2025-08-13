@@ -1,2 +1,16 @@
 
-GET http://localhost:7007
+GET http://localhost:7007/api/courses
+
+###
+
+POST http://localhost:7007/api/courses
+content-type: application/json
+
+{
+    "title": "Curso NodeJS",
+    "description": "Curso de NodeJS na RocketSeat"
+}
+
+###
+
+GET http://localhost:7007/api/courses/803af611-9466-4617-8d57-ac44e20c95c1
