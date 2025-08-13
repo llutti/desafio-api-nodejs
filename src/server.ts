@@ -2,8 +2,9 @@ import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
 import { fastify } from 'fastify';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler, type ZodTypeProvider, } from 'fastify-type-provider-zod';
-import { registerRoutes } from './routes/routes.ts';
+import { fastifyDrizzle } from './infra/libs/drizzle.ts';
 import { envApp } from './infra/utils/environment.ts';
+import { registerRoutes } from './routes/routes.ts';
 
 const server = fastify({
   logger: {
@@ -39,7 +40,11 @@ if (process.env.NODE_ENV === 'development')
       hideModels: true,
     }
   });
-}
+};
+
+server.register(fastifyDrizzle, {
+  databaseURL: envApp.DATABASE_URL
+});
 
 // Compiladores de validação e serialização do Zod
 server.setValidatorCompiler(validatorCompiler);

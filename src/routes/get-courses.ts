@@ -1,6 +1,5 @@
 import { type FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { db } from '../infra/libs/drizzle.ts';
 import { courses } from '../infra/database/schema.ts';
 
 export const getCoursesRoute: FastifyPluginAsyncZod = async (server) =>
@@ -22,7 +21,7 @@ export const getCoursesRoute: FastifyPluginAsyncZod = async (server) =>
     }
   }, async (request, reply) =>
   {
-    const result = await db
+    const result = await server.db
       .select(
         {
           id: courses.id,

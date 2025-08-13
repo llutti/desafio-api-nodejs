@@ -1,8 +1,7 @@
+import { eq } from 'drizzle-orm';
 import { type FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { db } from '../infra/libs/drizzle.ts';
 import { courses } from '../infra/database/schema.ts';
-import { eq } from 'drizzle-orm';
 
 export const getCourseByIdRoute: FastifyPluginAsyncZod = async (server) =>
 {
@@ -32,7 +31,7 @@ export const getCourseByIdRoute: FastifyPluginAsyncZod = async (server) =>
     {
       const courseId = request.params.id;
 
-      const result = await db
+      const result = await server.db
         .select()
         .from(courses)
         .where(eq(courses.id, courseId));
