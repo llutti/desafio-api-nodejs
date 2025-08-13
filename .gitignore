@@ -1,8 +1,11 @@
-# Arquivos internos do Projeto
-*.bak
+
+# internal to project
+lixo*.json
+/db/
 *.bat
-lixo*
-buildOptions.json
+*.bak
+*.sh
+logs/
 ~$*
 
 # Angular
