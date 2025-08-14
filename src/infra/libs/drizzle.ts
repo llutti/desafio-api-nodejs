@@ -1,6 +1,9 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { type FastifyPluginAsync } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
+import { envApp } from '../utils/environment.ts';
+
+export const db = drizzle(envApp.DATABASE_URL, { logger: envApp.NODE_ENV === 'development' });
 
 declare module 'fastify' {
   interface FastifyInstance
@@ -16,7 +19,7 @@ interface FastifyDrizzlePluginOptions
 
 export const fastifyDrizzle: FastifyPluginAsync<FastifyDrizzlePluginOptions> = async (fastify, options) =>
 {
-  const db = drizzle(options.databaseURL, { logger: true });
+  const db = drizzle(options.databaseURL, { logger: envApp.NODE_ENV === 'development' });
 
   fastify.decorate('db', db);
 

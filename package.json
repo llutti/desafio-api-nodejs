@@ -18,14 +18,17 @@
   "bugs": {
     "url": "https://github.com/llutti/desafio-api-nodejs/issues"
   },
-  "main": "server.js",
+  "main": "main.js",
   "type": "module",
   "scripts": {
-    "dev": "node --env-file .env --watch --experimental-strip-types src/server.ts",
+    "dev": "node --env-file .env --watch --experimental-strip-types src/main.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "lint": "eslint"
+    "db:seed": "node --env-file .env --experimental-strip-types src/infra/database/seed.ts",
+    "lint": "eslint",
+    "pretest": "dotenv -e .env.test drizzle-kit migrate",
+    "test": "dotenv -e .env.test vitest run --coverage"
   },
   "dependencies": {
     "@fastify/swagger": "^9.5.1",
@@ -38,10 +41,16 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@types/node": "^24.2.1",
+    "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^3.2.4",
+    "dotenv-cli": "^10.0.0",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.33.0",
+    "supertest": "^7.1.4",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.1"
+    "typescript-eslint": "^8.39.1",
+    "vitest": "^3.2.4"
   }
 }
