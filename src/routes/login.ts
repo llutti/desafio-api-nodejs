@@ -3,27 +3,26 @@
 import { verify } from 'argon2';
 import { eq } from 'drizzle-orm';
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import jwt from 'jsonwebtoken';
 import z from 'zod';
 import { users } from '../infra/database/schema.ts';
-
+import { envApp } from '../infra/utils/environment.ts';
 
 export const loginRoute: FastifyPluginAsyncZod = async (server) =>
 {
   server.post('/sessions',
     {
       schema: {
-        tags: ['auth'],
+        tags: ['Auth'],
         summary: 'Login',
         body: z.object({
           email: z.string().describe('E-mail do usuário'),
           password: z.string().describe('Senha do usuário'),
         }),
-        // response: {
-        //   201: z.object(
-        //     {
-        //       courseId: z.uuid().describe('ID do curso criado'),
-        //     }).describe('Curso criado com sucesso!'),
-        // }
+        response: {
+          200: z.object({ token: z.string().describe('JWT Token') }).describe('Autencicação realizada com sucesso!'),
+          400: z.object({ message: z.string().describe('Mensagem de erro') }).describe('Credenciais inválidas.'),
+        }
       }
     },
     async (request, reply) =>
@@ -36,18 +35,22 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) =>
         .where(eq(users.email, email));
 
 
-      if (result.length === 0)
+      const user = result?.at(0) ?? null;
+
+      if (!user)
       {
         return reply.status(400).send({ message: 'Credenciais inválidas.' });
       }
 
-      const isValid = await verify(result[0]?.password, password);
+      const isPasswordValid = await verify(user.password, password);
 
-      if (!isValid)
+      if (!isPasswordValid)
       {
         return reply.status(400).send({ message: 'Credenciais inválidas.' });
       }
 
-      return reply.status(200).send({ message: 'ok' });
+      const token = jwt.sign({ sub: user.id, role: user.role }, envApp.JWT_SECRET);
+
+      return reply.status(200).send({ token });
     });
 };

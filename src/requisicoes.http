@@ -1,5 +1,5 @@
 
-GET http://localhost:7007/api/courses?orderBy=id&page=1
+GET http://localhost:7777/api/courses?orderBy=id&page=1
 
 
 ###

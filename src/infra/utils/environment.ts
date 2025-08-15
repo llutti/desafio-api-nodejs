@@ -10,6 +10,9 @@ const environmentSchema = z.object({
 
   // Base de Dados
   DATABASE_URL: z.string({ message: 'DATABASE_URL environment variable is required' }),
+
+  // Autenticacao
+  JWT_SECRET: z.string({ message: 'JWT_SECRET environment variable is required' }),
 });
 
 export type Environment = z.infer<typeof environmentSchema>;

@@ -20,9 +20,9 @@ export function buildServer({ ativarLogs }: { ativarLogs?: boolean } = { ativarL
     server.register(fastifySwagger, {
       openapi: {
         info: {
-          title: 'Desafio Node.JS',
+          title: 'Desafio Node.JS by Rocketseat',
           version: '1.0.0'
-        }
+        },
       },
       transform: jsonSchemaTransform
     });
@@ -30,7 +30,7 @@ export function buildServer({ ativarLogs }: { ativarLogs?: boolean } = { ativarL
     server.register(scalarAPIReference, {
       routePrefix: '/docs',
       configuration: {
-        title: 'Desafio Node.JS',
+        title: 'Desafio Node.JS by Rocketseat',
         metaData: {
           title: 'Desafio Node.JS - Documentação',
         },
@@ -45,6 +45,7 @@ export function buildServer({ ativarLogs }: { ativarLogs?: boolean } = { ativarL
     });
   };
 
+  // Disponibilizar a conexão com o banco de dados em qualquer FastifyRequest
   server.register(fastifyDrizzle, {
     databaseURL: envApp.DATABASE_URL
   });
