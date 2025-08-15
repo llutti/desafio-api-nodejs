@@ -38,6 +38,6 @@ export async function makeAuthenticateUser(role?: Role)
 
   return {
     user,
-    token
+    token: `Bearer ${token}`
   };
 }

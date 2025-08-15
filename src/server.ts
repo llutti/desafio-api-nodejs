@@ -23,6 +23,19 @@ export function buildServer({ ativarLogs }: { ativarLogs?: boolean } = { ativarL
           title: 'Desafio Node.JS by Rocketseat',
           version: '1.0.0'
         },
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: 'http',
+              scheme: 'bearer',
+              bearerFormat: 'JWT'
+            }
+          }
+        },
+        tags: [
+          { name: 'Auth', description: 'Rotas de autenticação' },
+          { name: 'Courses', description: 'Rotas referentes aos Cursos' }
+        ],
       },
       transform: jsonSchemaTransform
     });

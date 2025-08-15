@@ -9,7 +9,7 @@ type JWTPayload = {
 
 export async function checkRequestJWT(request: FastifyRequest, reply: FastifyReply)
 {
-  const token = request.headers?.authorization;
+  const token = request.headers?.authorization?.split(' ')[1];
 
   if (!token)
   {
